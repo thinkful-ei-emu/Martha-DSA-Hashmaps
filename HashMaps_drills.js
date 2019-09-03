@@ -1,4 +1,5 @@
 const HashMap = require('./hashmaps');
+const HashMapSep = require('./hashmapSep');
 
 function main(){
 
@@ -21,10 +22,7 @@ function main(){
 
   lor.delete('HalfElven');
   console.log(lor);
-
   console.log(lor.get('Maiar'));
-
-
   console.log(lor.get('Hobbit'));
 
 }
@@ -120,12 +118,118 @@ function removeDuplicate(string){
   HashMap.MAX_LOAD_RATIO = 0.5;
   HashMap.SIZE_RATIO = 3;
   let hashmap = new HashMap();
+  let result = '';
   for(let i = 0; i< string.length; i++){
-    hashmap.set(string[i], string[i]);
+    try {
+      //see if it already exists 
+      hashmap.get(string[i]);
+    }
+    catch(e){
+      //sets key value in hashmap
+      hashmap.set(string[i]);
+      result += string[i];
+    }
   }
-  console.log(hashmap);
+  console.log(result);
 }
 
-console.log(removeDuplicate('google'));
-// console.log(removeDuplicate('google all that you think can think of'));
+// removeDuplicate('google'); //gole
+// removeDuplicate('google all that you think can think of'); 
 
+function palindrome(string) {
+  HashMap.MAX_LOAD_RATIO = 0.5;
+  HashMap.SIZE_RATIO = 3;
+  let hashmap = new HashMap();
+  let counter = 0;
+  for(let i = 0; i< string.length; i++){
+    try {
+      //see if it already exists 
+      hashmap.get(string[i]);
+      counter +=1;
+    }
+    catch(e){
+      //sets key value in hashmap
+      hashmap.set(string[i]);
+    }
+  }
+  let goal = Math.floor(string.length/2);
+  if(counter === goal){
+    return true;
+  }
+  return false;
+}
+
+// console.log(palindrome('acecarr')); //true b/c racecar
+// console.log(palindrome('north')); 
+// console.log(palindrome('toot'));
+// console.log(palindrome('like'));
+
+
+function anagram(list){
+  HashMap.MAX_LOAD_RATIO = 0.5;
+  HashMap.SIZE_RATIO = 3;
+  let hashmap = new HashMap();
+  list.forEach(word => {
+    let key = word.split('').sort().join('');
+    let words = [];
+    try{
+      hashmap.get(key);
+      words.push(word);
+      hashmap.set(key, words);
+      console.log(hashmap.get(key));
+    }
+    catch(e){
+      words.push(word);
+      hashmap.set(key, words);
+    }
+    // //console.log(key, words);
+    // console.log(hashmap.get('aest'));
+  });
+
+  //console.log(hashmap.get('aest'));
+}
+ 
+console.log(anagram(['east', 'cars', 'acre', 'arcs', 'teas', 'eats', 'race']));
+//[['east', 'teas', 'eats'], ['cars', 'arcs'], ['acre', 'race']]
+
+/**
+ * aest => ['east', 'teas', 'eats']
+ * 
+ * let value = []
+ * value.push('found word')
+ * 
+ * hashmap.set(key, value)
+ * 
+ * aest => east 
+ *      => teas
+ *      => eats
+ */
+
+
+function mainSep(){
+
+  HashMapSep.MAX_LOAD_RATIO = 0.5;
+  HashMapSep.SIZE_RATIO = 3;
+
+  let lor = new HashMapSep();
+
+  lor.set('Hobbit', 'Bilbo');
+  lor.set('Hobbit', 'Frodo');
+  lor.set('Wizard', 'Gandolf');
+  lor.set('Human', 'Aragon');
+  lor.set('Elf', 'Legolas');
+  lor.set('Maiar', 'The Necromancer');
+  lor.set('Maiar', 'Sauron');
+  lor.set('RingBearer', 'Gollum');
+  lor.set('LadyOfLight', 'Galadriel');
+  lor.set('HalfElven', 'Arwen');
+  lor.set('Ent', 'Treebeard');
+
+  lor.delete('HalfElven');
+  console.log(lor);
+  // console.log(lor.get('Maiar'));
+  // console.log(lor.get('Hobbit'));
+
+}
+
+// console.log(mainSep());
